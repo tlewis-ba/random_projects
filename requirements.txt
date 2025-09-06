@@ -1,0 +1,3 @@
+# DevTool CLI requirements
+# Currently no external dependencies - using only Python standard library
+# Add dependencies here as needed for future features
