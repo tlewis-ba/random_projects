@@ -54,10 +54,17 @@ def get_git_worktrees(repo_path: str) -> List[Dict[str, str]]:
         if line.strip():
             parts = line.split()
             if len(parts) >= 2:
+                # Handle git worktree list format: <path> <commit> [<branch>]
+                path = parts[0]
+                commit = parts[1]
+                if len(parts) > 2 and parts[2].startswith('[') and parts[2].endswith(']'):
+                    branch = parts[2][1:-1]  # Remove brackets
+                else:
+                    branch = commit  # Fallback to commit if no branch
                 worktrees.append({
-                    'path': parts[0],
-                    'branch': parts[1] if len(parts) > 1 else 'HEAD',
-                    'commit': parts[2] if len(parts) > 2 else ''
+                    'path': path,
+                    'branch': branch,
+                    'commit': commit
                 })
     return worktrees
 
